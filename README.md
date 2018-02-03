@@ -1,6 +1,8 @@
 # Marge
 **M**odel **A**rtificially **R**esolving **G**eographic **E**ntities 
 
+# Usage
+
 # Training Data
 Marge trains on data in tsv format with the following columns
 
