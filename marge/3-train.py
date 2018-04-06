@@ -54,14 +54,14 @@ def input_fn(data_file, num_epochs=2, shuffle=False, batch_size=40):
         features = dict(zip(_CSV_COLUMNS, columns))
         labels = features.pop("correct")
         return features, tf.equal(labels, 'y')
-        
+
     dataset = tf.data.TextLineDataset(data_file)
 
     if shuffle:
         dataset = dataset.shuffle(buffer_size=_NUM_EXAMPLES['train'])
 
     dataset = dataset.map(parse_csv, num_parallel_calls=5)
-        
+
     # We call repeat after shuffling, rather than before, to prevent separate
     # epochs from blending together.
     dataset = dataset.repeat(num_epochs)

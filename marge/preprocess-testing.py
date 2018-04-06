@@ -7,12 +7,12 @@ from utils import *
 
 start_time = datetime.now()
 
-input_file = open(DIRTY_TRAINING_FILE)
-output_file = open(PROCESSED_TRAINING_FILE, "w")
+input_file = open(DIRTY_TESTING_FILE)
+output_file = open(PROCESSED_TESTING_FILE, "w")
 
 reader = csv.DictReader(input_file, delimiter="\t")
 
-writer = csv.DictWriter(output_file, delimiter="\t", fieldnames=KEEPING_FOR_TRAINING + NEW_FIELDS)
+writer = csv.DictWriter(output_file, delimiter="\t", fieldnames=KEEPING_FOR_TESTING + NEW_FIELDS)
 writer.writeheader()
 
 count = 0
@@ -27,7 +27,7 @@ for old_row in reader:
         #"is_admin": is_admin(old_row)
         #"is_country": is_country(old_row)
     }
-    for key in KEEPING_FOR_TRAINING:
+    for key in KEEPING_FOR_TESTING:
         old_value = old_row[key]
         if old_value in ["True", "False", "true", "false"]:
             new_value = truthify(old_value)
