@@ -13,5 +13,5 @@ setup(
   download_url = 'https://github.com/DanielJDufour/marge/tarball/download',
   keywords = ['location','geo','python','tensorflow'],
   classifiers = [],
-  install_requires=["numpy, pandas, scipy, tensorflow"]
+  install_requires=["numpy", "pandas", "scipy"]
 )

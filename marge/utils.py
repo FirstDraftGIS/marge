@@ -26,9 +26,14 @@ def is_country(row):
     except:
         return 0
 
-def has_pop_over(row, threshold):
+def has_pop_over(entity, threshold):
     try:
-        if int(row["population"]) > threshold:
+        if hasattr(entity, "population"):
+            if int(entity.population) > threshold:
+                return 1
+            else:
+                return 0
+        elif int(entity["population"]) > threshold:
             return 1
         else:
             return 0
