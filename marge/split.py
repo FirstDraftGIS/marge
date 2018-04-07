@@ -22,7 +22,7 @@ count = 0
 for row in reader:
     count +=1
 
-    if count % 100 == 0:
+    if count % 10000 == 0:
         print("count:", count)
 
     group_id = row["order_id"]
