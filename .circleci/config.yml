@@ -4,6 +4,7 @@ jobs:
     docker:
       - image: python:latest
     steps:
+      - checkout
       - run:
           name: Download ML Data
           command: |
@@ -11,7 +12,7 @@ jobs:
             wget https://s3.amazonaws.com/firstdraftgis/firstdraftgis_export.tsv
       - run:
           name: Split Data into Training and Testing Files
-          command: python3 marge/0-split.py
+          command: python3 marge/split.py
       - run:
           name: Preprocess Training Data
           command: python3 marge/preprocess-training-data.py
