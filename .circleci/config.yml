@@ -11,6 +11,9 @@ jobs:
             cd /tmp
             wget https://s3.amazonaws.com/firstdraftgis/firstdraftgis_export.tsv
       - run:
+          name: Install Requirements
+          command: pip install -r requirements.txt
+      - run:
           name: Split Data into Training and Testing Files
           command: python3 marge/split.py
       - run:
