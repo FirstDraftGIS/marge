@@ -18,12 +18,17 @@ testing_writer.writeheader()
 # iterate over groups/orders
 group = []
 previous_group_id = None
+count = 0
 for row in reader:
+    count +=1
+
+    if count % 100 == 0:
+        print("count:", count)
+
     group_id = row["order_id"]
     if group_id == previous_group_id:
         group.append(row)
     else:
-        print(group_id, "is not", previous_group_id)
         if group:
             n = random() >= 0.10
             if n:
