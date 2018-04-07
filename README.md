@@ -1,5 +1,5 @@
 # Marge
-**M**odel **A**rtificially **R**esolving **G**eographic **E**ntities 
+**M**odel **A**rtificially **R**esolving **G**eographic **E**ntities
 
 # Usage
 
@@ -26,3 +26,25 @@ Marge trains on data in tsv format with the following columns
 | place_type                   | string  | Place type from Unum | B |
 | popularity                   | integer | | How many times have people made maps of this place? | 123 |
 | correct                      | boolean | | Is this the correct option? This is the label. | 1 |
+
+
+
+"""
+moving spatial clustering to MARGE
+#number_of_clusters =  max(3, number_of_locations/20)
+number_of_clusters = 3 if len(all_coords) >= 3 else len(all_coords)
+print("number_of_clusters:", number_of_clusters)
+#centroids = kmeans(all_coords, number_of_clusters)[0]
+#print "centroids:", centroids
+estimator = KMeans(n_clusters=number_of_clusters)
+#print "all_coords:", all_coords
+estimator.fit(all_coords)
+print("fit estimator")
+labels = estimator.labels_
+cluster_count = Counter()
+for cluster in labels:
+    cluster_count[cluster] += 1
+cluster_frequency = {cluster: float(count) / number_of_places for cluster, count in cluster_count.items() }
+for i in range(number_of_places):
+    places[i].cluster_frequency = cluster_frequency[labels[i]]
+"""
