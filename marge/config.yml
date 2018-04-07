@@ -1,0 +1,13 @@
+files:
+  dirty_data_file: /tmp/firstdraftgis_export.tsv
+  dirty_training_file: /tmp/training_dirty.tsv
+  dirty_testing_file: /tmp/testing_dirty.tsv
+  processed_training_file: /tmp/marge_processed_training_data.tsv
+  processed_testing_file: /tmp/marge_processed_testing_data.tsv
+  testing_path: /tmp/marge_testing_data.tsv
+
+models:
+  first_pass:
+    path: /tmp/first_pass.pickle
+  second_pass:
+    path: /tmp/second_pass.pickle

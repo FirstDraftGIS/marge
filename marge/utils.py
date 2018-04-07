@@ -1,5 +1,8 @@
 import json
 
+from marge.config import config
+from .enumerations import *
+
 def clone(obj):
     return json.loads(json.dumps(obj))
 
@@ -51,3 +54,8 @@ def numerify(obj):
                 except:
                     pass
     return obj
+
+
+def get_model(model_name):
+    with open(MODEL_PATH, "rb") as f:
+        return pickle.load(f)

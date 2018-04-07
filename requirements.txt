@@ -1,3 +1,5 @@
+geopandas
 numpy
 pandas
+PyYAML
 scipy

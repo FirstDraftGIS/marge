@@ -1,14 +1,15 @@
 from csv import DictReader
 from csv import DictWriter
 from random import random
-from config import DIRTY_DATA_FILE, DIRTY_TRAINING_FILE, DIRTY_TESTING_FILE
 
-input_data_file = open(DIRTY_DATA_FILE)
+from config import config
+
+input_data_file = open(config["dirty_data_file"])
 reader = DictReader(input_data_file, delimiter="\t")
 fieldnames = reader.fieldnames
 
-training = open(DIRTY_TRAINING_FILE, "w")
-testing = open(DIRTY_TESTING_FILE, "w")
+training = open(config["dirty_training_file"], "w")
+testing = open(config["dirty_testing_file"], "w")
 
 training_writer = DictWriter(training, delimiter="\t", fieldnames=fieldnames)
 training_writer.writeheader()

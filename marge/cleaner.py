@@ -1,38 +1,42 @@
-from config import *
 from datetime import datetime
 from pandas import read_csv
-from utils import *
+from .utils import *
 
-# cleans entities in memory
-# and returns a Pandas DataFrame
-def clean_entity(entities):
-    import csv
+from marge.config import config
+from .enumerations import *
 
+# cleans data frame for first pass
+# basically, removes any unnecessary columns
+def trim(df, model_name):
+    keeping_these_columns = config["models"][model_name]["columns"]
+    return df[keeping_these_columns]
 
-count = 0
-for old_row in reader:
-    count += 1
-    new_row = {
-        "has_enwiki_title": truthify(old_row["enwiki_title"]),
-        "has_population_over_1_million": has_pop_over(old_row, 1e6),
-        "has_population_over_1_thousand": has_pop_over(old_row, 1e3),
-        "has_population_over_1_hundred": has_pop_over(old_row, 1e2),
-        #"is_place_type_b": truthify(old_row["place_type"] == "B"),
-        #"is_admin": is_admin(old_row)
-        #"is_country": is_country(old_row)
-    }
-    for key in KEEPING_FOR_TRAINING:
-        old_value = old_row[key]
-        if old_value in ["True", "False", "true", "false"]:
-            new_value = truthify(old_value)
-        else:
-            new_value = old_row[key]
-        new_row[key] = new_value
-    writer.writerow(new_row)
-    if count > 1e7:
-        break
+# gets value for a given key
+def get_value(i, key):
+    if isinstance(i, dict):
+        return i.get(key, None)
+    elif hasattr(i, key):
+        return i.key
 
-input_file.close()
-output_file.close()
+def simple_has(obj, key):
+    return 1 if get_value(obj, key) not in nulls else 0
 
-print("finished in ", (datetime.now() - start_time).total_seconds(), "seconds")
+def has(obj, key):
+    return simple_has(obj, "has_" + key) or simple_has(obj, key)
+
+def has_over(obj, key, threshold):
+    value = get_value(obj, key)
+    if value in nulls:
+        return 0
+    elif isinstance(value, int) or isinstance(value, float):
+        return 1 if value > threshold else 0
+    else:
+        return 0
+
+def tofloat(i):
+    if isinstance(i, float):
+        return i
+    elif isinstance(i, int):
+        return float(int)
+    elif isinstance(i, str):
+        return float(i.replace(",", ""))
