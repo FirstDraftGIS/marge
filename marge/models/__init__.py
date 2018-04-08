@@ -1,10 +1,14 @@
+from numpy import where
 from pandas import DataFrame, read_csv
+import pprint
 import pickle
 from sklearn.linear_model import LinearRegression
 
 from config import config
 from marge.enricher import enrich
 from marge.utils import to_dicts
+
+pp = pprint.PrettyPrinter(indent=4)
 
 class Model:
 
@@ -22,6 +26,7 @@ class Model:
             keep = True
             for key, value in d.items():
                 if key in self.config["columns"] and value in [None, ""]:
+                    #print("not keeping kv", [key], [value])
                     keep = False
             if keep:
                 results.append(d)
@@ -31,24 +36,32 @@ class Model:
         with open(self.config["path"], "rb") as f:
             return pickle.load(f)
 
-    def predict(self, i):
-        dicts = enrich(i, in_memory=True)
-        df = self.convert(dicts)
-        df = self.trim(df)
-        df["prediction"] = self.load().predict(df)
-        return df
+    def predict(self, inpt):
+        print("starting predict")
+        dicts = enrich(inpt, in_memory=True)
+        filtered = self.filter_dicts(dicts)
+        if filtered:
+            df = self.convert(filtered)
+            trimmed = self.trim(df)
+            df["probability"] = self.load().predict(trimmed)
+            return df
 
     def train(self, train_set=None):
         if train_set is None:
             train_set = to_dicts(config["files"]["dirty_training_file"], nrows=2000)
         dicts = enrich(train_set, in_memory=True)
         filtered = self.filter_dicts(dicts)
+        print("filtered")
+        #pp.pprint(filtered)
         df = self.convert(filtered)
         model = LinearRegression()
         X = self.trim(df)
+        self.validate_df(X)
         Y = df["correct"]
+        print("Y:", Y.dtypes)
+        print("Y:", set(Y))
         model.fit(X, Y)
-        print("weights", dict(zip(self.config["columns"], model.coef_)))
+        pp.pprint(dict(zip(self.config["columns"], [round(n, 2) for n in model.coef_])))
         with open(self.config["path"], "wb") as f:
             pickle.dump(model, f)
 
@@ -61,3 +74,9 @@ class Model:
             dict([(k, v) for k, v in d.items() if k in columns ])
             for d in dicts
         ]
+
+    def validate_df(self, df):
+        print("validating df")
+        for name in self.config["columns"]:
+            if len(set(df[name])) == 1:
+                raise Exception("UH OH: there's only one in the set for " + name)

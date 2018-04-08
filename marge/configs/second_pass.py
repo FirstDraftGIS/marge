@@ -1,5 +1,5 @@
 COLUMNS = [
-    "country_code_rank",
+    "country_code_frequency",
     "has_enwiki_title",
     "importance",
     "has_population_over_1_million",

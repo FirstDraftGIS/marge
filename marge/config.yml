@@ -7,6 +7,12 @@ files:
   processed_testing_file: /tmp/marge_processed_testing_data.tsv
   testing_path: /tmp/marge_testing_data.tsv
 
+training:
+  rowcount: 50000
+
+testing:
+  nrows: 50000
+
 models:
 
   first_pass:
@@ -21,7 +27,7 @@ models:
   second_pass:
     path: /tmp/second_pass.pickle
     columns:
-      - country_code_rank
+      - country_code_frequency
       - has_enwiki_title
       - importance
       - has_population_over_1_million

@@ -1,9 +1,9 @@
 from datetime import datetime
 from pandas import read_csv
-from .utils import *
 
 from marge.config import config
-from .enumerations import *
+from marge.enumerations import *
+from marge.utils import *
 
 # cleans data frame for first pass
 # basically, removes any unnecessary columns
@@ -12,11 +12,11 @@ def trim(df, model_name):
     return df[keeping_these_columns]
 
 # gets value for a given key
-def get_value(i, key):
-    if isinstance(i, dict):
-        return i.get(key, None)
-    elif hasattr(i, key):
-        return i.key
+def get_value(obj, key):
+    if isinstance(obj, dict):
+        return obj.get(key, None)
+    elif hasattr(obj, key):
+        return getattr(obj, key)
 
 def simple_has(obj, key):
     return 1 if get_value(obj, key) not in nulls else 0

@@ -3,7 +3,7 @@ from pandas import DataFrame
 # converts _input to dataframe
 def to_data_frame(_input):
     if isinstance(_input, DataFrame):
-        return _input:
+        return _input
     else:
         try:
             return DataFrame(_input)

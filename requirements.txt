@@ -1,3 +1,4 @@
+freq
 geopandas
 numpy
 pandas

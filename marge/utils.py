@@ -1,8 +1,10 @@
+from collections import Counter
 from csv import DictReader
+from pandas import DataFrame
 import json
 
 from marge.config import config
-from .enumerations import *
+from marge.enumerations import *
 
 def clone(obj):
     return json.loads(json.dumps(obj))
@@ -61,14 +63,33 @@ def get_model(model_name):
     with open(MODEL_PATH, "rb") as f:
         return pickle.load(fail)
 
-def to_dicts(filepath, nrows=None):
+def to_dicts(inpt, nrows=None):
     dicts = []
-    with open(filepath) as f:
-        reader = DictReader(f, delimiter="\t")
+    if isinstance(inpt, str):
+        print("to_dicts filepath:", inpt)
+        with open(inpt) as f:
+            reader = DictReader(f, delimiter="\t")
+            count = 0
+            for row in reader:
+                count += 1
+                if nrows and count > nrows:
+                    break
+                dicts.append(row)
+    elif isinstance(inpt, DataFrame):
         count = 0
-        for row in reader:
+        for index, series in inpt.iterrows():
             count += 1
             if nrows and count > nrows:
                 break
-            dicts.append(row)
+            dicts.append(series.to_dict())
     return dicts
+
+
+def max_by_group(iterator, column_name, group_name):
+    maxes = {}
+    for item in iterator:
+        gid = item[group_name]
+        value = item[column_name]
+        if gid not in maxes or value > maxes[gid]:
+            maxes[gid] = value
+    return maxes
