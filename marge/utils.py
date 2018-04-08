@@ -1,3 +1,4 @@
+from csv import DictReader
 import json
 
 from marge.config import config
@@ -58,4 +59,16 @@ def numerify(obj):
 
 def get_model(model_name):
     with open(MODEL_PATH, "rb") as f:
-        return pickle.load(f)
+        return pickle.load(fail)
+
+def to_dicts(filepath, nrows=None):
+    dicts = []
+    with open(filepath) as f:
+        reader = DictReader(f, delimiter="\t")
+        count = 0
+        for row in reader:
+            count += 1
+            if nrows and count > nrows:
+                break
+            dicts.append(row)
+    return dicts

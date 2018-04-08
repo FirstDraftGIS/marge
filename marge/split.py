@@ -4,12 +4,12 @@ from random import random
 
 from config import config
 
-input_data_file = open(config["dirty_data_file"])
+input_data_file = open(config["files"]["dirty_data_file"])
 reader = DictReader(input_data_file, delimiter="\t")
 fieldnames = reader.fieldnames
 
-training = open(config["dirty_training_file"], "w")
-testing = open(config["dirty_testing_file"], "w")
+training = open(config["files"]["dirty_training_file"], "w")
+testing = open(config["files"]["dirty_testing_file"], "w")
 
 training_writer = DictWriter(training, delimiter="\t", fieldnames=fieldnames)
 training_writer.writeheader()

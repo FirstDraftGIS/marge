@@ -30,6 +30,8 @@ def has_over(obj, key, threshold):
         return 0
     elif isinstance(value, int) or isinstance(value, float):
         return 1 if value > threshold else 0
+    elif isinstance(value, str) and value.isdigit():
+        return 1 if int(value) > threshold else 0
     else:
         return 0
 
@@ -40,3 +42,6 @@ def tofloat(i):
         return float(int)
     elif isinstance(i, str):
         return float(i.replace(",", ""))
+
+def is_truthy(i):
+    return 1 if i in truthies else 0

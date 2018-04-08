@@ -3,7 +3,7 @@ from numpy import median
 from pandas import DataFrame
 
 from config import *
-from predict import predict, select
+from resolver import *
 from utils import *
 
 f = open(PROCESSED_TESTING_FILE)

@@ -1,7 +1,7 @@
 from os.path import isfile
 import csv
 
-from .cleaner import has, has_over
+from .cleaner import has, has_over, is_truthy
 
 """
     This method enriches the file by:
@@ -48,11 +48,22 @@ def enrich(i, save_path=None, in_memory=False, debug=False):
     if in_memory:
         items = []
 
+    #s = set()
+    #track = "has_enwiki_title"
     for item in iterator:
-        item["has_enwiki_title"] = has(item, 'enwiki_tile')
+        item["has_enwiki_title"] = has(item, 'enwiki_title')
+        #s.add(item[track])
         item["has_population_over_1_million"] = has_over(item, "population", 1e6)
         item["has_population_over_1_thousand"] = has_over(item, "population", 1e3)
         item["has_population_over_1_hundred"] = has_over(item, "population", 1e2)
+
+        if "importance" in item:
+            value = item["importance"]
+            if value in ["", None]: item["importance"] = None
+            else: item["importance"] = float(item["importance"])
+
+        if "correct" in item:
+            item["correct"] = is_truthy(item["correct"])
 
         if save_path:
             writer.writerow(item)
@@ -60,6 +71,7 @@ def enrich(i, save_path=None, in_memory=False, debug=False):
         if in_memory:
             if debug: print("appended:", item)
             items.append(item)
+    #print("s:", s)
 
     if in_memory:
         return items
