@@ -37,7 +37,6 @@ class Model:
             return pickle.load(f)
 
     def predict(self, inpt):
-        print("starting predict")
         dicts = enrich(inpt, in_memory=True)
         filtered = self.filter_dicts(dicts)
         if filtered:

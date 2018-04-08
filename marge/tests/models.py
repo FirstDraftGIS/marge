@@ -53,9 +53,7 @@ class BaseModelTestCase(unittest.TestCase):
             total = num_correct + num_incorrect
             if total:
                 score = float(num_correct) / total
-                print("score:", score)
                 scores.append(score)
-        print("scores:", scores)
         mean_score = mean(scores)
         return mean_score
 

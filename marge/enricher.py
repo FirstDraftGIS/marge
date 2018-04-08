@@ -1,11 +1,11 @@
 from collections import Counter
+from freq import Freq
 from itertools import _grouper
 from os.path import isfile
 from pandas import DataFrame
 import csv
 
 from .cleaner import has, has_over, is_truthy, simple_has
-from .freq import Freq
 from .utils import max_by_group
 
 """
@@ -42,7 +42,6 @@ def enrich(i, save_path=None, in_memory=False, debug=False):
         iterator = list(_grouper)
         keys = list(iterator[0].keys())
 
-    print("keys:", keys)
     if debug: print("\titerator:", iterator)
 
     calc_country_code_frequency = "probability" in keys
@@ -117,7 +116,6 @@ def enrich(i, save_path=None, in_memory=False, debug=False):
         if in_memory:
             if debug: print("appended:", item)
             items.append(item)
-    print(tracker, " set:", s)
 
     if in_memory:
         return items

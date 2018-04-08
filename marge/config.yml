@@ -8,10 +8,10 @@ files:
   testing_path: /tmp/marge_testing_data.tsv
 
 training:
-  rowcount: 50000
+  rowcount: 10000
 
 testing:
-  nrows: 50000
+  nrows: 100000
 
 models:
 
