@@ -55,6 +55,8 @@ class BaseModelTestCase(unittest.TestCase):
                 score = float(num_correct) / total
                 scores.append(score)
         mean_score = mean(scores)
+        print("len(score:", scores)
+        self.assertTrue(len(scores) > 10)
         return mean_score
 
 
@@ -62,7 +64,7 @@ class TestFirstPass(BaseModelTestCase):
     def test_first_pass(self):
         print("\n\n\nstarting test_first_pass")
         mean_score = self.score(self.test_set, self.m1)
-        print("m1 mean_score:", mean_score)
+        print("m1 mean_score:", round(mean_score,2))
         self.assertTrue(mean_score > 0.9)
 
 class TestSecondPass(BaseModelTestCase):
@@ -70,5 +72,5 @@ class TestSecondPass(BaseModelTestCase):
         print("\n\n\nstarting test_second_pass")
         first_results = to_dicts(self.m1.predict(self.test_set))
         mean_score = self.score(first_results, self.m2)
-        print("m2 mean_score:", mean_score)
+        print("m2 mean_score:", round(mean_score,2))
         self.assertTrue(mean_score > 0.95)

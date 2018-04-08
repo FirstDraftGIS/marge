@@ -2,7 +2,7 @@ from numpy import where
 from pandas import DataFrame, read_csv
 import pprint
 import pickle
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression, SGDRegressor
 
 from config import config
 from marge.enricher import enrich
@@ -53,14 +53,17 @@ class Model:
         print("filtered")
         #pp.pprint(filtered)
         df = self.convert(filtered)
-        model = LinearRegression()
+        #model = LinearRegression(normalize=True)
+        #model = SGDRegressor()
+        #model = LogisticRegression()
         X = self.trim(df)
         self.validate_df(X)
         Y = df["correct"]
         print("Y:", Y.dtypes)
         print("Y:", set(Y))
         model.fit(X, Y)
-        pp.pprint(dict(zip(self.config["columns"], [round(n, 2) for n in model.coef_])))
+        pp.pprint(model.coef_)
+        #pp.pprint(dict(zip(self.config["columns"], [round(n, 2) for n in model.coef_])))
         with open(self.config["path"], "wb") as f:
             pickle.dump(model, f)
 

@@ -14,14 +14,19 @@ def truthify(x):
 
 def is_admin(row):
 
-    if row["geonames_feature_class"] == "A":
-        return 1
-
-    for key in ["admin1_code", "admin2_code", "admin3_code", "admin4_code", "admin5_code", "admin_level"]:
-        if key in row and truthify(row[key]):
+    try:
+        if "geonames_feature_class" in row and row["geonames_feature_class"] == "A":
             return 1
 
-    return 0
+        for key in ["admin_level"]:
+            if key in row and row[key] and int(row[key]) > 0:
+                return 1
+
+        return 0
+    except Exception as e:
+        print(row)
+        print(e)
+        raise(e)
 
 def is_country(row):
     try:

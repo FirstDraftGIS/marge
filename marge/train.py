@@ -13,3 +13,5 @@ print("m2:", m2)
 m2.train(train_set=first_results)
 #second_results = m2.predict(first_results)
 print("m2 trained:", m2)
+
+print("FINISHED TRAINING\n\n\n\n\n")

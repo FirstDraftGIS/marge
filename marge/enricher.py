@@ -6,7 +6,8 @@ from pandas import DataFrame
 import csv
 
 from .cleaner import has, has_over, is_truthy, simple_has
-from .utils import max_by_group
+from .enumerations import nulls
+from .utils import is_admin, max_by_group
 
 """
     This method enriches the file by:
@@ -47,10 +48,12 @@ def enrich(i, save_path=None, in_memory=False, debug=False):
     calc_country_code_frequency = "probability" in keys
 
     new_keys = [
+        "percent_fields_complete",
         "has_enwiki_title",
         "has_population_over_1_million",
         "has_population_over_1_thousand",
-        "has_population_over_1_hundred"
+        "has_population_over_1_hundred",
+        "is_admin"
     ]
 
     if calc_country_code_frequency:
@@ -82,6 +85,13 @@ def enrich(i, save_path=None, in_memory=False, debug=False):
             cc = item["country_code"].lower()
             item["country_code_frequency"] = freqs[cc]
 
+    for item in iterator:
+        num_fields = len(item.keys())
+        if num_fields == 0:
+            item["percent_fields_complete"] = 0
+        else:
+            num_complete_values = len([v for v in item.values() if v not in nulls + [0]])
+            item["percent_fields_complete"] = float(num_complete_values) / num_fields
     #print("items:", iterator[:2])
 
 
@@ -94,6 +104,7 @@ def enrich(i, save_path=None, in_memory=False, debug=False):
         item["has_population_over_1_million"] = has_over(item, "population", 1e6)
         item["has_population_over_1_thousand"] = has_over(item, "population", 1e3)
         item["has_population_over_1_hundred"] = has_over(item, "population", 1e2)
+        item["is_admin"] = is_admin(item)
 
         """
             Set importance is 0.25 if no importance is set.

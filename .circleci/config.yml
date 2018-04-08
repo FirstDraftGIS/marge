@@ -14,19 +14,13 @@ jobs:
           name: Install Dependencies
           command: |
             apt-get install python3-dev
-            pip install -r requirements.txt
+            pip install -r requirements.txt --quiet
       - run:
           name: Split Data into Training and Testing Files
           command: python3 marge/split.py
-      - run:
-          name: Preprocess Training Data
-          command: python3 marge/preprocess-training-data.py
-      - run:
-          name: Preprocess Testing Data
-          command: python3 marge/preprocess-testing-data.py
       - run:
           name: Train Model
           command: python3 marge/train.py
       - run:
           name: Test Model
-          command: python3 marge/test.py
+          command: python3 -m unittest marge.tests.models

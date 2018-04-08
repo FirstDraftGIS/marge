@@ -8,7 +8,7 @@ files:
   testing_path: /tmp/marge_testing_data.tsv
 
 training:
-  rowcount: 10000
+  rowcount: 100000
 
 testing:
   nrows: 100000
@@ -20,16 +20,21 @@ models:
     columns:
       - has_enwiki_title
       - importance
+      - is_admin
       - has_population_over_1_million
       - has_population_over_1_thousand
       - has_population_over_1_hundred
+      - percent_fields_complete
 
   second_pass:
     path: /tmp/second_pass.pickle
     columns:
       - country_code_frequency
-      - has_enwiki_title
-      - importance
-      - has_population_over_1_million
-      - has_population_over_1_thousand
-      - has_population_over_1_hundred
+      - probability
+      #- has_enwiki_title
+      #- importance
+      #- is_admin
+      #- has_population_over_1_million
+      #- has_population_over_1_thousand
+      #- has_population_over_1_hundred
+      #- percent_fields_complete
