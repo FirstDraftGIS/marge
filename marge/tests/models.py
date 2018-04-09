@@ -6,8 +6,8 @@ from pandas import DataFrame
 import pprint
 import unittest
 
-from config import config
-from resolver import *
+from marge.config import config
+from marge.resolver import *
 from marge.models import Model
 from marge.utils import to_dicts
 

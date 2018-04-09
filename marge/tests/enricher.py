@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from marge.enricher import enrich
+from georich import enrich
 
 class TestEnricher(unittest.TestCase):
 
