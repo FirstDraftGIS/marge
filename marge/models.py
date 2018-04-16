@@ -1,3 +1,4 @@
+from itertools import zip_longest
 from numpy import where
 from pandas import DataFrame, read_csv
 import pprint
@@ -53,7 +54,7 @@ class Model:
         print("filtered")
         #pp.pprint(filtered)
         df = self.convert(filtered)
-        #model = LinearRegression(normalize=True)
+        model = LinearRegression(normalize=True)
         #model = SGDRegressor()
         #model = LogisticRegression()
         X = self.trim(df)
@@ -62,8 +63,8 @@ class Model:
         print("Y:", Y.dtypes)
         print("Y:", set(Y))
         model.fit(X, Y)
-        pp.pprint(model.coef_)
-        #pp.pprint(dict(zip(self.config["columns"], [round(n, 2) for n in model.coef_])))
+        #pp.pprint(model.coef_)
+        pp.pprint(dict(zip(self.config["columns"], [round(n, 2) for n in model.coef_])))
         with open(self.config["path"], "wb") as f:
             pickle.dump(model, f)
 

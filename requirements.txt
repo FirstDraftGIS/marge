@@ -1,5 +1,6 @@
 freq
 geopandas
+georich
 numpy
 pandas
 PyYAML
