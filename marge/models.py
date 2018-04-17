@@ -1,12 +1,12 @@
-from itertools import zip_longest
+from georich import enrich
 from numpy import where
 from pandas import DataFrame, read_csv
 import pprint
 import pickle
 from sklearn.linear_model import LinearRegression, LogisticRegression, SGDRegressor
+from sklearn.tree import DecisionTreeRegressor
 
-from config import config
-from marge.enricher import enrich
+from marge.config import config
 from marge.utils import to_dicts
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -54,9 +54,10 @@ class Model:
         print("filtered")
         #pp.pprint(filtered)
         df = self.convert(filtered)
-        model = LinearRegression(normalize=True)
+        model = LinearRegression()
         #model = SGDRegressor()
         #model = LogisticRegression()
+        #model = DecisionTreeRegressor()
         X = self.trim(df)
         self.validate_df(X)
         Y = df["correct"]

@@ -1,11 +1,11 @@
 files:
 
-  dirty_data_file: /tmp/firstdraftgis_export.tsv
-  dirty_training_file: /tmp/training_dirty.tsv
-  dirty_testing_file: /tmp/testing_dirty.tsv
-  processed_training_file: /tmp/marge_processed_training_data.tsv
-  processed_testing_file: /tmp/marge_processed_testing_data.tsv
-  testing_path: /tmp/marge_testing_data.tsv
+  dirty_data_file: /home/daniel/Data/firstdraftgis_export.tsv
+  dirty_training_file: /home/daniel/Data/training_dirty.tsv
+  dirty_testing_file: /home/daniel/Data/testing_dirty.tsv
+  processed_training_file: /home/daniel/Data/marge_processed_training_data.tsv
+  processed_testing_file: /home/daniel/Data/marge_processed_testing_data.tsv
+  testing_path: /home/daniel/Data/marge_testing_data.tsv
 
 training:
   rowcount: 100000
@@ -16,18 +16,15 @@ testing:
 models:
 
   first_pass:
-    path: /tmp/first_pass.pickle
+    path: /home/daniel/Data/first_pass.pickle
     columns:
       - has_enwiki_title
       - importance
-      - is_admin
+      - pop_is_zero
       - has_population_over_1_million
-      - has_population_over_1_thousand
-      - has_population_over_1_hundred
-      - percent_fields_complete
 
   second_pass:
-    path: /tmp/second_pass.pickle
+    path: /home/daniel/Data/second_pass.pickle
     columns:
       - country_code_frequency
       - probability

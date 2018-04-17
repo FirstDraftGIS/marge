@@ -25,15 +25,22 @@ def has(obj, key):
     return simple_has(obj, "has_" + key) or simple_has(obj, key)
 
 def has_over(obj, key, threshold):
-    value = get_value(obj, key)
-    if value in nulls:
-        return 0
-    elif isinstance(value, int) or isinstance(value, float):
-        return 1 if value > threshold else 0
-    elif isinstance(value, str) and value.isdigit():
-        return 1 if int(value) > threshold else 0
-    else:
-        return 0
+    try:
+        value = get_value(obj, key)
+        if value in nulls:
+            return 0
+        elif isinstance(value, int) or isinstance(value, float):
+            return 1 if value > threshold else 0
+        elif isinstance(value, str) and value.isdigit():
+            return 1 if int(value) > threshold else 0
+        else:
+            return 0
+    except Exception as e:
+        print("has_over caught error ", e)
+        print("with obj", obj)
+        print("with key:", key)
+        print("with threshold:", threshold)
+        raise(e)
 
 def tofloat(i):
     if isinstance(i, float):
