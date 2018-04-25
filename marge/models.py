@@ -38,18 +38,18 @@ class Model:
             return pickle.load(f)
 
     def predict(self, inpt):
-        dicts = enrich(inpt, in_memory=True)
+        dicts = enrich(inpt, new_fields=self.config["columns"], in_memory=True)
         filtered = self.filter_dicts(dicts)
         if filtered:
             df = self.convert(filtered)
             trimmed = self.trim(df)
-            df["probability"] = self.load().predict(trimmed)
+            df["score"] = self.load().predict(trimmed)
             return df
 
     def train(self, train_set=None):
         if train_set is None:
             train_set = to_dicts(config["files"]["dirty_training_file"], nrows=2000)
-        dicts = enrich(train_set, in_memory=True)
+        dicts = enrich(train_set, new_fields=self.config["columns"], in_memory=True)
         filtered = self.filter_dicts(dicts)
         print("filtered")
         #pp.pprint(filtered)

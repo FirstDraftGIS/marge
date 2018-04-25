@@ -6,6 +6,7 @@ files:
   processed_training_file: /home/daniel/Data/marge_processed_training_data.tsv
   processed_testing_file: /home/daniel/Data/marge_processed_testing_data.tsv
   testing_path: /home/daniel/Data/marge_testing_data.tsv
+  cooccurrences_path: /home/daniel/Data/firstdraftgis/cooccurrences.pickle
 
 training:
   rowcount: 100000
@@ -20,18 +21,18 @@ models:
     columns:
       - has_enwiki_title
       - importance
-      - pop_is_zero
-      - has_population_over_1_million
+      - population_is_zero
+      - has_population_between_1_and_1_thousand
+      - has_population_between_1_thousand_and_1_million
+      - has_population_between_one_milion_and_ten_million
+      - has_population_over_ten_million
 
   second_pass:
     path: /home/daniel/Data/second_pass.pickle
     columns:
-      - country_code_frequency
-      - probability
-      #- has_enwiki_title
-      #- importance
-      #- is_admin
-      #- has_population_over_1_million
-      #- has_population_over_1_thousand
-      #- has_population_over_1_hundred
-      #- percent_fields_complete
+      #- pairing score
+      #- get median percentage of usage with each other place versus alternatives
+      # so basically how likely is it that this place is used based on context of other places
+      # versus another
+      - median_cooccurrence
+      - score

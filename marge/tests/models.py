@@ -7,9 +7,11 @@ import pprint
 import unittest
 
 from marge.config import config
+from marge.enricher import add_likely_correct, add_median_cooccurrence, combine_fields
 from marge.resolver import *
 from marge.models import Model
 from marge.utils import to_dicts
+
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -38,12 +40,12 @@ class BaseModelTestCase(unittest.TestCase):
                 if results is not None:
                     rows = [row for row_index, row in results.iterrows()]
                     if rows:
-                        max_probability = max([row["probability"] for row in rows])
+                        max_score = max([row["score"] for row in rows])
                         correct_rows = [row for row in rows if row["correct"]]
                         if correct_rows:
                             correct = correct_rows[0]
                             # do I have to worry about floating point arithmetic??
-                            if correct["probability"] == max_probability:
+                            if correct["score"] == max_score:
                                 num_correct += 1
                             else:
                                 num_incorrect += 1
@@ -63,14 +65,18 @@ class BaseModelTestCase(unittest.TestCase):
 class TestFirstPass(BaseModelTestCase):
     def test_first_pass(self):
         print("\n\n\nstarting test_first_pass")
-        mean_score = self.score(self.test_set, self.m1)
+        test_set = combine_fields(self.test_set, ["order_id", "feature_id"])
+        mean_score = self.score(test_set, self.m1)
         print("m1 mean_score:", round(mean_score,2))
         self.assertTrue(mean_score > 0.9)
 
 class TestSecondPass(BaseModelTestCase):
     def test_second_pass(self):
         print("\n\n\nstarting test_second_pass")
-        first_results = to_dicts(self.m1.predict(self.test_set))
-        mean_score = self.score(first_results, self.m2)
+        test_set = combine_fields(self.test_set, ["order_id", "feature_id"])
+        first_results = to_dicts(self.m1.predict(test_set))
+        places = add_likely_correct(first_results)
+        places = add_median_cooccurrence(places)
+        mean_score = self.score(places, self.m2)
         print("m2 mean_score:", round(mean_score,2))
         self.assertTrue(mean_score > 0.95)

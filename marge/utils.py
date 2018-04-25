@@ -10,6 +10,7 @@ from marge.enumerations import incompletes
 def clone(obj):
     return json.loads(json.dumps(obj))
 
+
 def truthify(x):
     return 0 if x in [None, "", False, "false"] else 1
 

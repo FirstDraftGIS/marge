@@ -18,7 +18,7 @@ def to_list_of_dicts(i):
         else:
             print("need to iterator through and convert to dicts")
     elif isinstance(i, DataFrame):
-        return i.to_dict()
+        return i.to_dict('records')
     elif isinstance(i, str):
         if isfile(i):
             sep = "\t" if i.endswith("\t") else ","
