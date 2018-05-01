@@ -3,13 +3,15 @@ from csv import DictWriter
 from random import random
 
 from config import config
+from utils import get_absolute_path
 
-input_data_file = open(config["files"]["dirty_data_file"], encoding="utf-8")
+path_to_data = get_absolute_path(config["files"]["dirty_data_file"])
+input_data_file = open(path_to_data, encoding="utf-8")
 reader = DictReader(input_data_file, delimiter="\t")
 fieldnames = reader.fieldnames
 
-training = open(config["files"]["dirty_training_file"], encoding="utf-8", mode="w")
-testing = open(config["files"]["dirty_testing_file"], encoding="utf-8", mode="w")
+training = open(get_absolute_path(config["files"]["dirty_training_file"]), encoding="utf-8", mode="w")
+testing = open(get_absolute_path(config["files"]["dirty_testing_file"]), encoding="utf-8", mode="w")
 
 training_writer = DictWriter(training, delimiter="\t", fieldnames=fieldnames)
 training_writer.writeheader()

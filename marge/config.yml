@@ -1,12 +1,12 @@
 files:
 
-  dirty_data_file: /home/daniel/Data/firstdraftgis_export.tsv
-  dirty_training_file: /home/daniel/Data/training_dirty.tsv
-  dirty_testing_file: /home/daniel/Data/testing_dirty.tsv
-  processed_training_file: /home/daniel/Data/marge_processed_training_data.tsv
-  processed_testing_file: /home/daniel/Data/marge_processed_testing_data.tsv
-  testing_path: /home/daniel/Data/marge_testing_data.tsv
-  cooccurrences_path: /home/daniel/Data/firstdraftgis/cooccurrences.pickle
+  dirty_data_file: ~/Data/firstdraftgis_export.tsv
+  dirty_training_file: ~/Data/training_dirty.tsv
+  dirty_testing_file: ~/Data/testing_dirty.tsv
+  processed_training_file: ~/Data/marge_processed_training_data.tsv
+  processed_testing_file: ~/Data/marge_processed_testing_data.tsv
+  testing_path: ~/Data/marge_testing_data.tsv
+  cooccurrences_path: ~/Data/cooccurrences.pickle
 
 training:
   rowcount: 100000
@@ -17,7 +17,7 @@ testing:
 models:
 
   first_pass:
-    path: /home/daniel/Data/first_pass.pickle
+    path: ~/Data/first_pass.pickle
     columns:
       - has_enwiki_title
       - importance
@@ -28,7 +28,7 @@ models:
       - has_population_over_ten_million
 
   second_pass:
-    path: /home/daniel/Data/second_pass.pickle
+    path: ~/Data/second_pass.pickle
     columns:
       #- pairing score
       #- get median percentage of usage with each other place versus alternatives

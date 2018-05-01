@@ -7,7 +7,7 @@ from sklearn.linear_model import LinearRegression, LogisticRegression, SGDRegres
 from sklearn.tree import DecisionTreeRegressor
 
 from marge.config import config
-from marge.utils import to_dicts
+from marge.utils import get_absolute_path, to_dicts
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -34,7 +34,7 @@ class Model:
         return results
 
     def load(self):
-        with open(self.config["path"], "rb") as f:
+        with open(get_absolute_path(self.config["path"]), "rb") as f:
             return pickle.load(f)
 
     def predict(self, inpt):
@@ -66,7 +66,7 @@ class Model:
         model.fit(X, Y)
         #pp.pprint(model.coef_)
         pp.pprint(dict(zip(self.config["columns"], [round(n, 2) for n in model.coef_])))
-        with open(self.config["path"], "wb") as f:
+        with open(get_absolute_path(self.config["path"]), "wb") as f:
             pickle.dump(model, f)
 
     def trim(self, df):

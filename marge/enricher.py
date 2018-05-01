@@ -2,14 +2,15 @@
 marge specific geoenrichment
 i.e. stuff that wouldn't make sense in georich
 """
+from collections import defaultdict, Counter
+from itertools import groupby
+from numpy import median
 import pickle
 
-from collections import defaultdict, Counter
-from config import config
-from converter import to_list_of_dicts
-from numpy import median
-from itertools import groupby
-from utils import max_by_group
+
+from .config import config
+from .converter import to_list_of_dicts
+from .utils import get_absolute_path, max_by_group
 
 def combine_fields(places, fields):
     places = to_list_of_dicts(places)
@@ -42,7 +43,7 @@ def add_median_cooccurrence(places):
     print("starting add_median_cooccurrence")
     places = to_list_of_dicts(places)
 
-    with open(config["files"]["cooccurrences_path"], "rb") as f:
+    with open(get_absolute_path(config["files"]["cooccurrences_path"]), "rb") as f:
         cooccurrences = pickle.load(f)
 
     for key, order in groupby(places, lambda place: place["order_id"]):

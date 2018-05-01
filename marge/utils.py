@@ -1,11 +1,18 @@
 from collections import Counter
 from csv import DictReader
+from os.path import expanduser
 from pandas import DataFrame
 import json
 
 from marge.config import config
 from marge.enumerations import *
 from marge.enumerations import incompletes
+
+def get_absolute_path(path):
+    if path.startswith("~"):
+        return expanduser(path)
+    else:
+        return path
 
 def clone(obj):
     return json.loads(json.dumps(obj))
@@ -72,14 +79,14 @@ def numerify(obj):
 
 
 def get_model(model_name):
-    with open(MODEL_PATH, "rb") as f:
+    with open(get_absolute_path(MODEL_PATH), "rb") as f:
         return pickle.load(fail)
 
 def to_dicts(inpt, nrows=None):
     dicts = []
     if isinstance(inpt, str):
         print("to_dicts filepath:", inpt)
-        with open(inpt) as f:
+        with open(get_absolute_path(inpt)) as f:
             reader = DictReader(f, delimiter="\t")
             count = 0
             for row in reader:
