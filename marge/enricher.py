@@ -8,9 +8,9 @@ from numpy import median
 import pickle
 
 
-from .config import config
-from .converter import to_list_of_dicts
-from .utils import get_absolute_path, max_by_group
+from marge.config import config
+from marge.converter import to_list_of_dicts
+from marge.utils import get_absolute_path, max_by_group
 
 def combine_fields(places, fields):
     places = to_list_of_dicts(places)
