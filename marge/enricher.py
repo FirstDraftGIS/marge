@@ -28,11 +28,16 @@ def add_likely_correct(places):
     old_fields = places[0].keys()
 
     if "score" in old_fields and "feature_id" in old_fields:
-        maxes = max_by_group(places, "score", "order_id-feature_id")
-        for place in places:
-            gid = place["order_id-feature_id"]
-            prob = place["score"]
-            place["likely_correct"] = 1 if prob == maxes[gid] else 0
+        if "order_id-feature_id" in old_fields:
+            maxes = max_by_group(places, "score", "order_id-feature_id")
+            for place in places:
+                gid = place["order_id-feature_id"]
+                prob = place["score"]
+                place["likely_correct"] = 1 if prob == maxes[gid] else 0
+        else: # assume all same order
+            max_score = max([place["score"] for place in places])
+            for place in places:
+                place["likely_correct"] = 1 if place["score"] == max_score else 0
 
     print("added likely correct to all places")
     return places
@@ -46,7 +51,7 @@ def add_median_cooccurrence(places):
     with open(get_absolute_path(config["files"]["cooccurrences_path"]), "rb") as f:
         cooccurrences = pickle.load(f)
 
-    for key, order in groupby(places, lambda place: place["order_id"]):
+    for key, order in groupby(places, lambda place: place.get("order_id", None)):
         places_in_order = list(order)
 
         #print("len places_in_order:", len(places_in_order))

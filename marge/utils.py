@@ -101,6 +101,9 @@ def to_dicts(inpt, nrows=None):
             if nrows and count > nrows:
                 break
             dicts.append(series.to_dict())
+    elif isinstance(inpt, list) and isinstance(inpt[0], dict):
+        dicts = inpt
+
     return dicts
 
 
