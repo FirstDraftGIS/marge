@@ -1,16 +1,8 @@
 # PIPELINE
 This file describes the pipeline
 
-### Set Up
-*After the data is downloaded and split the pipeline forks into separate testing and training pipelines*
-1) Download data used for training and testing
-2) Split data used for training and testing into separate files
+# Split
+Split your data into a training and testing group using `python3 split.py`
 
-
-### Training Pipeline
-1) Preprocess Training Data
-2) Train
-
-### Testing Pipeline
-1) Preprocess Testing Data
-2) Test
+# Train
+Train all three models using `python3 train.py`

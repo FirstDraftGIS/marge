@@ -1,12 +1,13 @@
 files:
 
-  dirty_data_file: ~/Data/firstdraftgis_export.tsv
+  dirty_data_file: /tmp/firstdraftgis_export.tsv
   dirty_training_file: ~/Data/training_dirty.tsv
   dirty_testing_file: ~/Data/testing_dirty.tsv
   processed_training_file: ~/Data/marge_processed_training_data.tsv
   processed_testing_file: ~/Data/marge_processed_testing_data.tsv
   testing_path: ~/Data/marge_testing_data.tsv
   cooccurrences_path: ~/Data/cooccurrences.pickle
+  is_a_place_frequency_counter: ~/Data/is_a_place_frequency.pickle
 
 training:
   rowcount: 100000
@@ -35,4 +36,11 @@ models:
       # so basically how likely is it that this place is used based on context of other places
       # versus another
       - median_cooccurrence
-      - score
+      - score_1
+  
+  third_pass:
+    path: ~/Data/third_pass.pickle
+    columns:
+      - score_2
+      - is_a_place_frequency
+      #- length_of_normalized_name

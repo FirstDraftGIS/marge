@@ -1,5 +1,6 @@
 from collections import Counter
 from csv import DictReader
+from itertools import groupby
 from os.path import expanduser
 from pandas import DataFrame
 import json
@@ -128,3 +129,7 @@ def is_complete(item):
         return True
     else:
         return False
+        
+def group_by(items, key):
+    for group_id, group in groupby(items, key=lambda x: x[key]):
+        yield group    

@@ -43,7 +43,9 @@ class Model:
         if filtered:
             df = self.convert(filtered)
             trimmed = self.trim(df)
-            df["score"] = self.load().predict(trimmed)
+            column_names = df.columns.values.tolist()
+            num_scores = len([name for name in column_names if "score" in name])
+            df["score_" + str(num_scores + 1)] = self.load().predict(trimmed)
             return df
 
     def train(self, train_set=None):
